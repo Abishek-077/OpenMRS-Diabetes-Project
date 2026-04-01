@@ -8,6 +8,7 @@
  *   https://openmrs.github.io/openmrs-esm-core/#/main/config
  */
 import React, { useEffect } from 'react';
+import { Button, Tile } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { Boxes } from './boxes/slot/boxes.component';
 import Greeter from './greeter/greeter.component';
@@ -19,6 +20,40 @@ import OrthancDashboardPage from './Orthanc/pages/orthanc-dashboard.page';
 import LabsDashboardPage from './labs/pages/labs-dashboard.page';
 import styles from './root.scss';
 
+type ExternalSystem = {
+  id: string;
+  name: string;
+  description: string;
+  path?: string;
+  port?: string;
+};
+
+const externalSystems: Array<ExternalSystem> = [
+  {
+    id: 'lab',
+    name: 'Laboratory (OpenELIS)',
+    description: 'Open lab diagnostics in OpenELIS.',
+    path: '/openelis',
+  },
+  {
+    id: 'pharmacy',
+    name: 'Pharmacy',
+    description: 'Open the pharmacy system on port 8069.',
+    port: '8069',
+  },
+  {
+    id: 'orthanc',
+    name: 'Orthanc',
+    description: 'Open the Orthanc imaging viewer.',
+    path: '/orthanc-container/ui/app/index.html#/',
+  },
+];
+
+const getSystemUrl = (path?: string, port?: string) => {
+  const { protocol, hostname } = window.location;
+  const host = port ? `${hostname}:${port}` : hostname;
+  return `${protocol}//${host}${path ?? ''}`;
+};
 
 const Root: React.FC = () => {
   const { t } = useTranslation();
@@ -31,28 +66,42 @@ const Root: React.FC = () => {
       favicon.rel = 'icon';
       document.head.appendChild(favicon);
     }
-
-
   }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
-
         <div>
-          <h3 className={styles.welcome}>
-            {t('welcomeText', 'Welcome to the O3 Template app')}
-          </h3>
+          <h3 className={styles.welcome}>{t('welcomeText', 'Welcome to NIDANHS')}</h3>
 
           <p className={styles.explainer}>
-            {t(
-              'explainer',
-              'The following examples demonstrate some key features of the O3 framework',
-            )}
-            .
+            {t('explainer', 'Use the quick access panel below to launch connected systems in your local deployment')}.
           </p>
         </div>
       </div>
+
+      <Tile className={styles.quickAccessSection}>
+        <div className={styles.quickAccessHeader}>
+          <h4>Integrated Systems</h4>
+          <p>Professional single-click access to Lab, Pharmacy, and Orthanc services.</p>
+        </div>
+
+        <div className={styles.quickAccessGrid}>
+          {externalSystems.map((system) => (
+            <Tile key={system.id} className={styles.systemCard}>
+              <h5>{system.name}</h5>
+              <p>{system.description}</p>
+              <Button
+                kind="primary"
+                size="sm"
+                onClick={() => window.open(getSystemUrl(system.path, system.port), '_blank', 'noopener,noreferrer')}
+              >
+                Open {system.name}
+              </Button>
+            </Tile>
+          ))}
+        </div>
+      </Tile>
 
       <Greeter />
       <Boxes />
@@ -62,8 +111,6 @@ const Root: React.FC = () => {
       <DiabetesDashboard patientUuid="100008E" />
       <OrthancDashboardPage />
       <LabsDashboardPage />
-
-
     </div>
   );
 };

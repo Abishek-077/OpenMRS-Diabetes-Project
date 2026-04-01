@@ -1,8 +1,8 @@
 (function () {
-  var brandName = 'SOUL Electronic Medical Records';
-  var brandShortName = 'SOUL';
+  var brandName = 'NIDANHS';
+  var brandShortName = 'NIDANHS';
   var spaBase = typeof window.getOpenmrsSpaBase === 'function' ? window.getOpenmrsSpaBase() : '/openmrs/spa/';
-  var logoHref = spaBase + 'assets/soul.png';
+  var logoHref = spaBase + 'assets/file.svg';
   var scheduled = false;
 
   function ensureTitle() {
@@ -43,22 +43,31 @@
     var content = openmrsLogo.parentElement;
     var tile = content && content.parentElement;
 
-    if (!content || !tile || tile.dataset.soulBrandingApplied === 'true') {
+    if (!content || !tile || tile.dataset.nidanhsBrandingApplied === 'true') {
       return;
     }
 
-    tile.dataset.soulBrandingApplied = 'true';
-    tile.classList.add('soul-brand-footer-card');
-    content.classList.add('soul-brand-footer-content');
-    content.replaceChildren(createFooterImage());
+    tile.dataset.nidanhsBrandingApplied = 'true';
+    tile.classList.add('nidanhs-brand-footer-card');
+    content.classList.add('nidanhs-brand-footer-content');
+    content.replaceChildren(createFooterBranding());
   }
 
-  function createFooterImage() {
+  function createFooterBranding() {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'nidanhs-brand-footer-wrapper';
+
     var image = document.createElement('img');
     image.src = logoHref;
     image.alt = brandName;
-    image.className = 'soul-brand-footer-image';
-    return image;
+    image.className = 'nidanhs-brand-footer-image';
+
+    var label = document.createElement('span');
+    label.className = 'nidanhs-brand-footer-name';
+    label.textContent = brandName;
+
+    wrapper.append(image, label);
+    return wrapper;
   }
 
   function applyBranding() {

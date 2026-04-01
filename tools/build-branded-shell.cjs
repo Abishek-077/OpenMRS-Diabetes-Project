@@ -10,10 +10,10 @@ const packageJson = require('../package.json');
 const brandingConfigPath = resolve(process.cwd(), 'branding', 'openmrs-branding.config.json');
 const brandingCssPath = resolve(process.cwd(), 'branding', 'branding.css');
 const brandingJsPath = resolve(process.cwd(), 'branding', 'branding.js');
-const brandLogoPath = resolve(process.cwd(), 'public', 'soul.png');
+const brandLogoPath = resolve(process.cwd(), 'public', 'file.svg');
 const moduleRoutesPath = resolve(process.cwd(), 'dist', 'routes.json');
 const moduleBundleName = basename(packageJson.browser);
-const brandPageTitle = 'SOUL Electronic Medical Records';
+const brandPageTitle = 'NIDANHS';
 const mergedImportmapPath = resolve(process.cwd(), 'dist', 'brand-importmap.json');
 const mergedRoutesPath = resolve(process.cwd(), 'dist', 'brand-routes.registry.json');
 
@@ -74,7 +74,7 @@ async function main() {
   remoteRoutes[packageJson.name] = localRoutes;
   writeFileSync(mergedImportmapPath, JSON.stringify(remoteImportmap, null, 2));
   writeFileSync(mergedRoutesPath, JSON.stringify(remoteRoutes, null, 2));
-  process.env.OMRS_FAVICON = `${spaPath}/assets/soul.png`;
+  process.env.OMRS_FAVICON = `${spaPath}/assets/file.svg`;
 
   await runBuild({
     target,
@@ -95,7 +95,7 @@ async function main() {
   });
 
   mkdirSync(join(target, 'assets'), { recursive: true });
-  copyFileSync(brandLogoPath, join(target, 'assets', 'soul.png'));
+  copyFileSync(brandLogoPath, join(target, 'assets', 'file.svg'));
 }
 
 main().catch((error) => {
