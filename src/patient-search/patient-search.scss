@@ -1,0 +1,31 @@
+.wrapper {
+    margin-top: 2rem;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    margin: 1rem 0 1.5rem;
+}
+
+.controls :global(.cds--search) {
+    flex: 1;
+}
+
+.loading,
+.empty,
+.error {
+    margin-top: 1rem;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.patientCard {
+    padding: 1rem;
+}

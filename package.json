@@ -7,9 +7,14 @@
   "main": "src/index.ts",
   "source": true,
   "scripts": {
-    "start": "openmrs develop",
+    "start": "yarn build && node tools/serve-built-shell.cjs",
+    "start:dev": "openmrs develop --config-file branding/openmrs-branding.config.json",
+    "start:openmrs": "openmrs develop",
+    "preview": "node tools/serve-built-shell.cjs",
     "serve": "webpack serve --mode=development",
-    "build": "webpack --mode production",
+    "build": "yarn build:module && yarn build:shell",
+    "build:module": "webpack --mode production",
+    "build:shell": "node tools/build-branded-shell.cjs",
     "analyze": "webpack --mode=production --env analyze=true",
     "lint": "eslint src --ext js,jsx,ts,tsx --max-warnings 0",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\" --list-different",
@@ -41,6 +46,7 @@
   },
   "dependencies": {
     "@carbon/react": "^1.83.0",
+    "@openmrs/esm-form-engine-lib": "^4.1.0",
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {

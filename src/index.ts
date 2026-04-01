@@ -1,49 +1,95 @@
 /**
  * This is the entrypoint file of the application. It communicates the
- * important features of this microfrontend to the app shell. It
- * connects the app shell to the React application(s) that make up this
- * microfrontend.
+ * important features of this microfrontend to the app shell.
  */
-import { getAsyncLifecycle, defineConfigSchema } from '@openmrs/esm-framework';
+
+import { defineConfigSchema, getAsyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 
 const moduleName = '@openmrs/esm-template-app';
 
-const options = {
-  featureName: 'root-world',
-  moduleName,
-};
-
 /**
- * This tells the app shell how to obtain translation files: that they
- * are JSON files in the directory `../translations` (which you should
- * see in the directory structure).
+ * Translation loader
  */
-export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
+export const importTranslation = require.context('../translations', false, /\.json$/, 'lazy');
 
 /**
- * This function performs any setup that should happen at microfrontend
- * load-time (such as defining the config schema) and then returns an
- * object which describes how the React application(s) should be
- * rendered.
+ * App startup
  */
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-/**
- * This named export tells the app shell that the default export of `root.component.tsx`
- * should be rendered when the route matches `root`. The full route
- * will be `openmrsSpaBase() + 'root'`, which is usually
- * `/openmrs/spa/root`.
- */
-export const root = getAsyncLifecycle(() => import('./root.component'), options);
+function createLifecycleOptions(featureName: string) {
+  return {
+    featureName,
+    moduleName,
+  };
+}
 
 /**
- * The following are named exports for the extensions defined in this frontend modules. See the `routes.json` file to see how these are used.
+ * Root route
  */
-export const redBox = getAsyncLifecycle(() => import('./boxes/extensions/red-box.component'), options);
+export const root = getAsyncLifecycle(
+  () => import('./root.component'),
+  createLifecycleOptions('root'),
+);
 
-export const blueBox = getAsyncLifecycle(() => import('./boxes/extensions/blue-box.component'), options);
+/**
+ * Boxes / existing demo extensions
+ */
+export const redBox = getAsyncLifecycle(
+  () => import('./boxes/extensions/red-box.component'),
+  createLifecycleOptions('red-box'),
+);
 
-export const brandBox = getAsyncLifecycle(() => import('./boxes/extensions/brand-box.component'), options);
+export const blueBox = getAsyncLifecycle(
+  () => import('./boxes/extensions/blue-box.component'),
+  createLifecycleOptions('blue-box'),
+);
+
+export const brandBox = getAsyncLifecycle(
+  () => import('./boxes/extensions/brand-box.component'),
+  createLifecycleOptions('brand-box'),
+);
+
+/**
+ * Active visits widget
+ */
+export const activeWidgetTable = getAsyncLifecycle(
+  () => import('./active-visits-widget/active-visits-table.component'),
+  createLifecycleOptions('active-visits-widget'),
+);
+
+/**
+ * Diabetes feature
+ */
+export const diabetesDashboardPage = getAsyncLifecycle(
+  () => import('./diabetes/pages/diabetes-dashboard.page'),
+  createLifecycleOptions('diabetes-dashboard-page'),
+);
+
+export const diabetesDashboardLink = getAsyncLifecycle(
+  () => import('./diabetes/extensions/diabetes-dashboard-link.extension'),
+  createLifecycleOptions('diabetes-dashboard-link'),
+);
+
+export const orthancDashboardPage = getAsyncLifecycle(
+  () => import('./Orthanc/pages/orthanc-dashboard.page'),
+  createLifecycleOptions('orthanc-dashboard-page'),
+);
+
+export const orthancDashboardLink = getAsyncLifecycle(
+  () => import('./Orthanc/extensions/orthanc-link.extesnion'),
+  createLifecycleOptions('orthanc-dashboard-link'),
+);
+
+export const labsDashboardPage = getAsyncLifecycle(
+  () => import('./labs/pages/labs-dashboard.page'),
+  createLifecycleOptions('labs-dashboard-page'),
+);
+
+export const labsDashboardLink = getAsyncLifecycle(
+  () => import('./labs/extensions/labs-link.extension'),
+  createLifecycleOptions('labs-dashboard-link'),
+);

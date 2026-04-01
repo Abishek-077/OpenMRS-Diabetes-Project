@@ -5,11 +5,32 @@
   padding: layout.$spacing-07;
 }
 
+.hero {
+  display: flex;
+  align-items: center;
+  gap: layout.$spacing-05;
+  margin-bottom: layout.$spacing-07;
+}
+
+.logo {
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .welcome {
   @include type.type-style('heading-04');
-  margin: layout.$spacing-05 0;
+  margin: 0 0 layout.$spacing-03;
 }
 
 .explainer {
-  margin-bottom: layout.$spacing-07;
+  margin: 0;
+}
+
+@media (max-width: 42rem) {
+  .hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

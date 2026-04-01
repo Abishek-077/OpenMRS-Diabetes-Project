@@ -15,16 +15,51 @@
       "component": "blueBox",
       "slot": "Boxes"
     },
-        {
-      "name": "Brand box",
-      "component": "blueBox",
-      "slot": "Boxes"
+    {
+      "name": "active-visits-widget",
+      "component": "activeWidgetTable",
+      "slot": "home-widgets-slot"
+    },
+    {
+      "name": "diabetes-dashboard-link",
+      "component": "diabetesDashboardLink",
+      "slot": "app-menu-slot"
+    },
+    {
+      "name": "orthanc-dashboard-link",
+      "component": "orthancDashboardLink",
+      "slot": "app-menu-slot"
+    },
+    {
+      "name": "labs-dashboard-link",
+      "component": "labsDashboardLink",
+      "slot": "app-menu-slot"
     }
   ],
   "pages": [
     {
       "component": "root",
       "route": "root"
+    },
+    {
+      "component": "diabetesDashboardPage",
+      "route": "home/diabetes"
+    },
+    {
+      "component": "diabetesInitialAssessmentPage",
+      "route": "home/diabetes/initial-assessment"
+    },
+    {
+      "component": "diabetesFollowUpPage",
+      "route": "home/diabetes/follow-up"
+    },
+    {
+      "component": "orthancDashboardPage",
+      "route": "home/orthanc"
+    },
+    {
+      "component": "labsDashboardPage",
+      "route": "home/labs"
     }
   ]
 }
