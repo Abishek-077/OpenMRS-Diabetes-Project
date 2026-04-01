@@ -50,15 +50,24 @@
     tile.dataset.nidanhsBrandingApplied = 'true';
     tile.classList.add('nidanhs-brand-footer-card');
     content.classList.add('nidanhs-brand-footer-content');
-    content.replaceChildren(createFooterImage());
+    content.replaceChildren(createFooterBranding());
   }
 
-  function createFooterImage() {
+  function createFooterBranding() {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'nidanhs-brand-footer-wrapper';
+
     var image = document.createElement('img');
     image.src = logoHref;
     image.alt = brandName;
     image.className = 'nidanhs-brand-footer-image';
-    return image;
+
+    var label = document.createElement('span');
+    label.className = 'nidanhs-brand-footer-name';
+    label.textContent = brandName;
+
+    wrapper.append(image, label);
+    return wrapper;
   }
 
   function applyBranding() {
