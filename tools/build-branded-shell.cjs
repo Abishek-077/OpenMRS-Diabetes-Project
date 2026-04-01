@@ -10,7 +10,8 @@ const packageJson = require('../package.json');
 const brandingConfigPath = resolve(process.cwd(), 'branding', 'openmrs-branding.config.json');
 const brandingCssPath = resolve(process.cwd(), 'branding', 'branding.css');
 const brandingJsPath = resolve(process.cwd(), 'branding', 'branding.js');
-const brandLogoPath = resolve(process.cwd(), 'public', 'file.svg');
+const primaryBrandLogoPath = resolve(process.cwd(), 'public', 'logo.png');
+const fallbackBrandLogoPath = resolve(process.cwd(), 'public', 'file.svg');
 const moduleRoutesPath = resolve(process.cwd(), 'dist', 'routes.json');
 const moduleBundleName = basename(packageJson.browser);
 const brandPageTitle = 'NIDANHS';
@@ -74,7 +75,9 @@ async function main() {
   remoteRoutes[packageJson.name] = localRoutes;
   writeFileSync(mergedImportmapPath, JSON.stringify(remoteImportmap, null, 2));
   writeFileSync(mergedRoutesPath, JSON.stringify(remoteRoutes, null, 2));
-  process.env.OMRS_FAVICON = `${spaPath}/assets/file.svg`;
+  process.env.OMRS_FAVICON = existsSync(primaryBrandLogoPath) ? `${spaPath}/assets/logo.png` : `${spaPath}/assets/file.svg`;
+
+  const resolvedLogoPath = existsSync(primaryBrandLogoPath) ? primaryBrandLogoPath : fallbackBrandLogoPath;
 
   await runBuild({
     target,
@@ -95,7 +98,11 @@ async function main() {
   });
 
   mkdirSync(join(target, 'assets'), { recursive: true });
-  copyFileSync(brandLogoPath, join(target, 'assets', 'file.svg'));
+  if (existsSync(primaryBrandLogoPath)) {
+    copyFileSync(resolvedLogoPath, join(target, 'assets', 'logo.png'));
+  }
+
+  copyFileSync(fallbackBrandLogoPath, join(target, 'assets', 'file.svg'));
 }
 
 main().catch((error) => {

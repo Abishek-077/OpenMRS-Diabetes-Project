@@ -2,8 +2,20 @@
   var brandName = 'NIDANHS';
   var brandShortName = 'NIDANHS';
   var spaBase = typeof window.getOpenmrsSpaBase === 'function' ? window.getOpenmrsSpaBase() : '/openmrs/spa/';
-  var logoHref = spaBase + 'assets/file.svg';
+  var primaryLogoHref = spaBase + 'assets/logo.png';
+  var fallbackLogoHref = spaBase + 'assets/file.svg';
   var scheduled = false;
+
+  function withLogoFallback(element) {
+    element.src = primaryLogoHref;
+    element.addEventListener(
+      'error',
+      function () {
+        element.src = fallbackLogoHref;
+      },
+      { once: true },
+    );
+  }
 
   function ensureTitle() {
     document.title = brandName;
@@ -15,13 +27,13 @@
     if (!icons.length) {
       var favicon = document.createElement('link');
       favicon.rel = 'icon';
-      favicon.href = logoHref;
+      withLogoFallback(favicon);
       document.head.appendChild(favicon);
       return;
     }
 
     icons.forEach(function (icon) {
-      icon.href = logoHref;
+      withLogoFallback(icon);
     });
   }
 
@@ -29,6 +41,35 @@
     document.querySelectorAll('header[aria-label="OpenMRS"]').forEach(function (header) {
       header.setAttribute('aria-label', brandShortName);
     });
+  }
+
+  function improveTopNavBranding() {
+    var brandLink = document.querySelector('a.cds--header__name');
+
+    if (!brandLink || brandLink.dataset.nidanhsTopNavApplied === 'true') {
+      return;
+    }
+
+    brandLink.dataset.nidanhsTopNavApplied = 'true';
+    brandLink.classList.add('nidanhs-topnav-brand');
+    brandLink.replaceChildren(createTopNavBranding());
+  }
+
+  function createTopNavBranding() {
+    var wrapper = document.createElement('span');
+    wrapper.className = 'nidanhs-topnav-brand-wrapper';
+
+    var image = document.createElement('img');
+    image.className = 'nidanhs-topnav-logo';
+    image.alt = brandName;
+    withLogoFallback(image);
+
+    var label = document.createElement('span');
+    label.className = 'nidanhs-topnav-name';
+    label.textContent = brandShortName;
+
+    wrapper.append(image, label);
+    return wrapper;
   }
 
   function replaceLoginFooter() {
@@ -58,9 +99,9 @@
     wrapper.className = 'nidanhs-brand-footer-wrapper';
 
     var image = document.createElement('img');
-    image.src = logoHref;
     image.alt = brandName;
     image.className = 'nidanhs-brand-footer-image';
+    withLogoFallback(image);
 
     var label = document.createElement('span');
     label.className = 'nidanhs-brand-footer-name';
@@ -74,6 +115,7 @@
     ensureTitle();
     ensureFavicon();
     ensureHeaderLabel();
+    improveTopNavBranding();
     replaceLoginFooter();
   }
 
