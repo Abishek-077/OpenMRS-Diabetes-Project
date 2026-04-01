@@ -1,9 +1,21 @@
 (function () {
-  var brandName = 'SOUL Electronic Medical Records';
-  var brandShortName = 'SOUL';
+  var brandName = 'NIDANHS';
+  var brandShortName = 'NIDANHS';
   var spaBase = typeof window.getOpenmrsSpaBase === 'function' ? window.getOpenmrsSpaBase() : '/openmrs/spa/';
-  var logoHref = spaBase + 'assets/soul.png';
+  var primaryLogoHref = spaBase + 'assets/logo.png';
+  var fallbackLogoHref = spaBase + 'assets/file.svg';
   var scheduled = false;
+
+  function withLogoFallback(element) {
+    element.src = primaryLogoHref;
+    element.addEventListener(
+      'error',
+      function () {
+        element.src = fallbackLogoHref;
+      },
+      { once: true },
+    );
+  }
 
   function ensureTitle() {
     document.title = brandName;
@@ -15,13 +27,13 @@
     if (!icons.length) {
       var favicon = document.createElement('link');
       favicon.rel = 'icon';
-      favicon.href = logoHref;
+      withLogoFallback(favicon);
       document.head.appendChild(favicon);
       return;
     }
 
     icons.forEach(function (icon) {
-      icon.href = logoHref;
+      withLogoFallback(icon);
     });
   }
 
@@ -29,6 +41,35 @@
     document.querySelectorAll('header[aria-label="OpenMRS"]').forEach(function (header) {
       header.setAttribute('aria-label', brandShortName);
     });
+  }
+
+  function improveTopNavBranding() {
+    var brandLink = document.querySelector('a.cds--header__name');
+
+    if (!brandLink || brandLink.dataset.nidanhsTopNavApplied === 'true') {
+      return;
+    }
+
+    brandLink.dataset.nidanhsTopNavApplied = 'true';
+    brandLink.classList.add('nidanhs-topnav-brand');
+    brandLink.replaceChildren(createTopNavBranding());
+  }
+
+  function createTopNavBranding() {
+    var wrapper = document.createElement('span');
+    wrapper.className = 'nidanhs-topnav-brand-wrapper';
+
+    var image = document.createElement('img');
+    image.className = 'nidanhs-topnav-logo';
+    image.alt = brandName;
+    withLogoFallback(image);
+
+    var label = document.createElement('span');
+    label.className = 'nidanhs-topnav-name';
+    label.textContent = brandShortName;
+
+    wrapper.append(image, label);
+    return wrapper;
   }
 
   function replaceLoginFooter() {
@@ -43,28 +84,38 @@
     var content = openmrsLogo.parentElement;
     var tile = content && content.parentElement;
 
-    if (!content || !tile || tile.dataset.soulBrandingApplied === 'true') {
+    if (!content || !tile || tile.dataset.nidanhsBrandingApplied === 'true') {
       return;
     }
 
-    tile.dataset.soulBrandingApplied = 'true';
-    tile.classList.add('soul-brand-footer-card');
-    content.classList.add('soul-brand-footer-content');
-    content.replaceChildren(createFooterImage());
+    tile.dataset.nidanhsBrandingApplied = 'true';
+    tile.classList.add('nidanhs-brand-footer-card');
+    content.classList.add('nidanhs-brand-footer-content');
+    content.replaceChildren(createFooterBranding());
   }
 
-  function createFooterImage() {
+  function createFooterBranding() {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'nidanhs-brand-footer-wrapper';
+
     var image = document.createElement('img');
-    image.src = logoHref;
     image.alt = brandName;
-    image.className = 'soul-brand-footer-image';
-    return image;
+    image.className = 'nidanhs-brand-footer-image';
+    withLogoFallback(image);
+
+    var label = document.createElement('span');
+    label.className = 'nidanhs-brand-footer-name';
+    label.textContent = brandName;
+
+    wrapper.append(image, label);
+    return wrapper;
   }
 
   function applyBranding() {
     ensureTitle();
     ensureFavicon();
     ensureHeaderLabel();
+    improveTopNavBranding();
     replaceLoginFooter();
   }
 

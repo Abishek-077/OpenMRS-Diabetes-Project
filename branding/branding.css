@@ -1,15 +1,15 @@
-.soul-brand-footer-card {
+.nidanhs-brand-footer-card {
   max-width: none !important;
   width: auto;
 }
 
-.soul-brand-footer-content {
+.nidanhs-brand-footer-content {
   display: flex;
   align-items: center;
   min-height: auto !important;
 }
 
-.soul-brand-footer-image {
+.nidanhs-brand-footer-image {
   display: block;
   width: min(18rem, 58vw);
   height: auto;
@@ -18,7 +18,51 @@
 }
 
 @media (max-width: 480px) {
-  .soul-brand-footer-image {
+  .nidanhs-brand-footer-image {
     width: min(14rem, 78vw);
   }
+}
+
+.nidanhs-brand-footer-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nidanhs-brand-footer-name {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #161616;
+}
+
+.nidanhs-topnav-brand {
+  text-decoration: none !important;
+}
+
+.nidanhs-topnav-brand-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 11rem;
+}
+
+.nidanhs-topnav-logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+  border-radius: 0.25rem;
+}
+
+.nidanhs-topnav-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f4f4f4;
+}
+
+header .cds--header__name,
+header .cds--header__name:hover,
+header .cds--header__name:focus {
+  text-decoration: none !important;
+  border-bottom: none !important;
 }

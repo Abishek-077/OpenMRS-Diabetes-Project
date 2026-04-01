@@ -1,7 +1,7 @@
 {
-  "appTitle": "SOUL EMR",
+  "appTitle": "NIDANHS",
   "logo": {
-    "src": "/soul.png",
-    "alt": "SOUL Electronic Medical Record"
+    "src": "/logo.png",
+    "alt": "NIDANHS"
   }
 }
