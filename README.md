@@ -2,36 +2,44 @@
 
 ![Node.js CI](https://github.com/openmrs/openmrs-esm-template-app/workflows/Node.js%20CI/badge.svg)
 
-This repository serves as a template for building OpenMRS frontend modules. For detailed guidance, see the [Creating a Frontend Module](https://openmrs.atlassian.net/wiki/x/rIIBCQ) documentation.
+This repository provides a starter template for building **OpenMRS frontend modules** using the **OpenMRS 3 (O3) microfrontend architecture**. It is intended to help developers quickly scaffold, customize, and integrate new frontend features into the OpenMRS reference application.
+
+If you are new to OpenMRS frontend development, this template gives you the essential structure, tooling, and conventions needed to begin building your own module.
+
+For detailed guidance, see the [Creating a Frontend Module](https://openmrs.atlassian.net/wiki/x/rIIBCQ) documentation.
 
 For more information, please see the [OpenMRS Frontend Developer Documentation](https://openmrs.atlassian.net/wiki/x/IABBHg).
 
 The [Setup](https://openmrs.atlassian.net/wiki/x/PIIBCQ) section will help you get started with frontend module development.
 
+## Overview
+
+The OpenMRS ESM Template App is designed to act as a clean starting point for developers creating custom frontend modules. It includes:
+
+- A basic application structure for OpenMRS microfrontends
+- Sample components and routes
+- Configuration schema examples
+- Development and build tooling
+- CI workflow setup
+
+This template is especially useful for developers who want to focus on building features without having to set up the project structure from scratch.
+
+## Prerequisites
+
+Before running this application, make sure you have the following installed:
+
+- **Node.js** (LTS version recommended)
+- **Yarn** package manager
+- A running **OpenMRS 3 backend** or access to the O3 reference application environment
+- Basic familiarity with:
+  - React
+  - TypeScript
+  - OpenMRS microfrontend architecture
+
 ## Running this code
 
+Install dependencies and start the development server:
+
 ```sh
-yarn  # to install dependencies
-yarn start  # to run the dev server
-```
-
-Once it is running, a browser window should open running the O3 reference application. Log in and then navigate to `/openmrs/spa/root`.
-
-## Adapting the code
-
-1. Replace all instances of "template" with your frontend module's name
-2. Update `index.ts` with your feature name, page name, and route
-3. Rename the `root.*` files to match your first page
-4. Clear `config-schema` objects and rebuild as needed
-5. Delete the `greeter` and `patient-getter` directories and clear `root.component.tsx`
-6. Clear `translations/en.json`
-7. Update `.github/workflows` for your deployment needs
-8. Replace this README with documentation for your module
-
-At this point, you should be able to write your first page as a React application.
-
-See the [Medication dispensing app](https://github.com/openmrs/openmrs-esm-dispensing-app) for a complete example of a non-trivial frontend module built using this template.
-
-## Integration
-
-See [Creating a Frontend Module](https://openmrs.atlassian.net/wiki/x/rIIBCQ) for details on how to integrate your custom frontend module into the OpenMRS reference application.
+yarn
+yarn start
